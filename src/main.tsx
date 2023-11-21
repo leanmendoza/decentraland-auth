@@ -10,6 +10,8 @@ import { CallbackPage } from './components/Pages/CallbackPage'
 import { LoginPage } from './components/Pages/LoginPage'
 import 'decentraland-ui/dist/themes/alternative/dark-theme.css'
 import './index.css'
+import { SignToServerPage } from './components/Pages/SignToServerPage'
+import { GetAccountPage } from './components/Pages/GetAccountPage'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +20,8 @@ ReactDOM.render(
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/sign-to-server" element={<SignToServerPage />} />
+        <Route path="/get-account" element={<GetAccountPage />} />
         <Route path="*" element={<DefaultPage />} />
       </Routes>
     </BrowserRouter>
