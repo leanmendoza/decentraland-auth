@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors')
 
 const app = express();
-const port = 3000;
+const port = process.env.QUEUE_SERVER_PORT || 5545;
 
 // Map to store tasks with unique IDs
 const tasksMap = new Map();

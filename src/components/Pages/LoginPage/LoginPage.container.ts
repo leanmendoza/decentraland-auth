@@ -1,1 +1,1 @@
-export const Container = {}
+export const CONTAINER = {}

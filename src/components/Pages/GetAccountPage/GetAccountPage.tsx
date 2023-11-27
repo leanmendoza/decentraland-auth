@@ -14,24 +14,28 @@ async function isConnected() {
 export const GetAccountPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const search = new URLSearchParams(location.search)
 
   const [loading, setLoading] = useState<boolean>(true)
   const [sendToServerError, setSendToServerError] = useState<string>()
 
-  const requestId = decodeURI(search.get('id') || '')
-
   useEffect(() => {
     if (!loading) return
 
-    console.log('first useEffect')
+    const search = new URLSearchParams(location.search)
+    const requestId = decodeURI(search.get('id') || '')
+    const serverEndpoint = decodeURI(search.get('server-endpoint') || '') // TODO: make this part of build or static config
 
     if (requestId.length === 0) {
       navigate('/login?error=wrong-request-id')
       return
     }
 
-    const to = encodeURI(`/get-account?id=${requestId}`)
+    if (serverEndpoint.length === 0) {
+      navigate('/login?error=wrong-server-endpoint')
+      return
+    }
+
+    const to = encodeURI(`/get-account?id=${requestId}&server-endpoint=${serverEndpoint}`)
     const needLoginNavigation = `/login?navigateTo=${to}`
 
     isConnected()
@@ -41,7 +45,7 @@ export const GetAccountPage = () => {
         } else {
           setLoading(false)
           const connectionData = await connection.tryPreviousConnection()
-          fetch('http://localhost:3000/task', {
+          fetch(serverEndpoint, {
             method: 'POST',
             headers: {
               // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -50,7 +54,8 @@ export const GetAccountPage = () => {
             body: JSON.stringify({
               id: requestId,
               data: {
-                address: connectionData.account || ''
+                address: connectionData.account || '',
+                chainId: connectionData.chainId || 0
               }
             })
           })
