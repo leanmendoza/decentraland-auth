@@ -14,7 +14,7 @@ import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/decentraland-auth/">
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
