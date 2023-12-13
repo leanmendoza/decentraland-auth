@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && cp dist/index.html dist/404.html",
     "prebuild": "node scripts/prebuild.cjs",
     "test": "jest",
     "test:coverage": "npm run test -- --coverage",
@@ -64,5 +64,5 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   },
-  "homepage": ""
+  "homepage": "https://leanmendoza.github.io/decentraland-auth"
 }
