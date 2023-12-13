@@ -4,11 +4,13 @@ import { ProviderType } from '@dcl/schemas'
 import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 import { getConfiguration, connection } from 'decentraland-connect'
 import { useAfterLoginRedirection } from '../../../hooks/redirection'
+import { useAfterLoginRenavigation } from '../../../hooks/renavigation'
 
 const MAGIC_KEY = getConfiguration().magic.apiKey
 
 export const CallbackPage = () => {
   const redirectTo = useAfterLoginRedirection()
+  const navigateTo = useAfterLoginRenavigation()
   const navigate = useNavigate()
 
   const logInAndRedirect = useCallback(async () => {
@@ -31,7 +33,7 @@ export const CallbackPage = () => {
         window.location.href = redirectTo
       } else {
         // Navigate to user or to any other site
-        navigate('/user')
+        navigate(navigateTo ?? '/user')
       }
     } catch (error) {
       console.log(error)

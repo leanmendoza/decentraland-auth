@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAfterLoginRedirection } from '../../../hooks/redirection'
+import { useAfterLoginRenavigation } from '../../../hooks/renavigation'
 import { Connection, ConnectionOptionType } from '../../Connection'
 import { ConnectionModal, ConnectionModalState } from '../../ConnectionModal'
 import { WalletInformationModal } from '../../WalletInformationModal'
@@ -13,6 +14,7 @@ export const LoginPage = () => {
   const [showLearnMore, setShowLearnMore] = useState(false)
   const [showConnectionModal, setShowConnectionModal] = useState(false)
   const redirectTo = useAfterLoginRedirection()
+  const navigateTo = useAfterLoginRenavigation()
   const navigate = useNavigate()
 
   const handleLearnMore = useCallback(() => {
@@ -31,14 +33,14 @@ export const LoginPage = () => {
         if (redirectTo) {
           window.location.href = redirectTo
         } else {
-          navigate('/user')
+          navigate(navigateTo ?? '/user')
         }
         setShowConnectionModal(false)
       } catch (error) {
         setConnectionModalState(ConnectionModalState.ERROR)
       }
     },
-    [setConnectionModalState, setShowConnectionModal, redirectTo]
+    [setConnectionModalState, setShowConnectionModal, redirectTo, navigateTo]
   )
 
   const handleOnCloseConnectionModal = useCallback(() => {

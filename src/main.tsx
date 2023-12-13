@@ -8,16 +8,18 @@ import { UserPage } from './components/Pages/UserPage'
 import { DefaultPage } from './components/Pages/DefaultPage'
 import { CallbackPage } from './components/Pages/CallbackPage'
 import { LoginPage } from './components/Pages/LoginPage'
+import { RemoteWalletPage } from './components/Pages/RemoteWalletPage'
 import 'decentraland-ui/dist/themes/alternative/dark-theme.css'
 import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/decentraland-auth/">
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/remote-wallet" element={<RemoteWalletPage />} />
         <Route path="*" element={<DefaultPage />} />
       </Routes>
     </BrowserRouter>
