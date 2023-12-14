@@ -25,7 +25,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+      GHPAGES: true
+      
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
