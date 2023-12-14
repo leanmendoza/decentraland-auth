@@ -9,6 +9,7 @@ on:
       - created
 
 jobs:
+  if: false
   build-release:
     runs-on: ubuntu-latest
     steps:
