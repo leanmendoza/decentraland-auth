@@ -60,6 +60,6 @@ function getPublicUrls() {
   // localhost
   console.log('Using empty pubic url')
   return {
-    VITE_BASE_URL: '/'
+    VITE_BASE_URL: ''
   }
 }
