@@ -9,7 +9,7 @@ export default defineConfig(({ command, mode }) => {
     plugins: [react()],
     ...(command === 'build'
       ? {
-          base: envVariables.VITE_BASE_URL || '/decentraland-auth/',
+          base: envVariables.VITE_BASE_URL,
           optimizeDeps: {
             esbuildOptions: {
               // Node.js global to browser globalThis

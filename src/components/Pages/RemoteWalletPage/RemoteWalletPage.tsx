@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { connection } from 'decentraland-connect'
 import { fetchRequest, handleRequest } from './server'
 
@@ -13,30 +13,20 @@ type RemoteWalletPageError = {
 }
 
 export const RemoteWalletPage = () => {
+  const { requestId } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const [finished, setFinished] = useState<boolean>(false)
   const [loading, setLoading] = useState<string>('')
   const [displayError, setDisplayError] = useState<RemoteWalletPageError | undefined>(undefined)
 
   async function init() {
-    const search = new URLSearchParams(location.search)
-    const requestId = decodeURI(search.get('requestId') || '')
-    // TODO: this server endpoint should be provided here, not in the query string
-    const serverEndpoint = decodeURI(search.get('serverEndpoint') || '')
-
-    if (requestId.length === 0) {
+    if (requestId === undefined || requestId.length === 0) {
       setDisplayError({ id: 'wrong-parameter', reason: 'The request id is empty' })
       return
     }
 
-    if (serverEndpoint.length === 0) {
-      setDisplayError({ id: 'wrong-parameter', reason: 'The server endpoint is empty' })
-      return
-    }
-
-    const to = encodeURIComponent(`/remote-wallet?&requestId=${requestId}&serverEndpoint=${serverEndpoint}`)
+    const to = encodeURIComponent(`/remote-wallet/${requestId}`)
     const needLoginNavigation = `/login?navigateTo=${to}`
 
     setLoading(
@@ -56,10 +46,10 @@ export const RemoteWalletPage = () => {
 
     try {
       setLoading('Fetching the request to sign.')
-      const request = await fetchRequest(requestId, serverEndpoint)
+      const request = await fetchRequest(requestId)
 
       setLoading('Resolving request, follow the instructions on your wallet.')
-      await handleRequest(request, requestId, serverEndpoint)
+      await handleRequest(request, requestId)
 
       setLoading('')
       setFinished(true)

@@ -62,7 +62,7 @@ export async function connectToProvider(connectionOption: ConnectionOptionType):
     })
 
     const url = new URL(window.location.href)
-    url.pathname = '/decentraland-auth/callback'
+    url.pathname = '/callback'
 
     await magic.oauth.loginWithRedirect({
       provider: connectionOption,

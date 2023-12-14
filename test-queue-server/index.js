@@ -128,13 +128,18 @@ setInterval(() => {
 
 // Function to clean up expired tasks
 function cleanupExpiredTasks() {
+    const toDelete = new Set()
     const currentTime = Date.now();
     for (const [taskId, task] of tasksMap.entries()) {
         // Assuming tasks expire after 10 minutes
         const expirationTime = task.createdAt + 10 * 60 * 1000; // 10 minutes
         if (currentTime > expirationTime) {
-            tasksMap.delete(taskId);
+            toDelete.add(taskId)
         }
+    }
+
+    for (const taskId of toDelete.values()) {
+        tasksMap.delete(taskId);
     }
 }
 
