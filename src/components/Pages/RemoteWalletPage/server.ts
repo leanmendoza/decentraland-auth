@@ -1,14 +1,14 @@
 import { BrowserProvider } from 'ethers'
 import { Provider, connection } from 'decentraland-connect'
 import { AUTH_SERVER_ENDPOINT } from './config'
-import { RPCSendableMessage, RemoteWalletRequest } from './schemas'
+import { RPCSendableMessage, RemoteWalletRequest, RemoteWalletResponse } from './schemas'
 
 function base64ToBytes(base64: string): Uint8Array {
   const binString = atob(base64)
   return Uint8Array.from(binString, (m, _) => m.charCodeAt(0))
 }
 
-async function sendResponse(requestId: string, responseData: unknown): Promise<boolean> {
+export async function sendResponse(requestId: string, responseData: RemoteWalletResponse): Promise<boolean> {
   const response = await fetch(`${AUTH_SERVER_ENDPOINT}${requestId}`, {
     method: 'PUT',
     headers: {
@@ -55,7 +55,7 @@ async function sendAsync(provider: Provider, request: RPCSendableMessage) {
   })
 }
 
-export async function handleRequest(request: RemoteWalletRequest, requestId: string) {
+export async function handleRequest(request: RemoteWalletRequest): Promise<RemoteWalletResponse> {
   const connectionData = await connection.tryPreviousConnection()
   if (connectionData === null) {
     throw new Error('The user is not connected')
@@ -67,10 +67,14 @@ export async function handleRequest(request: RemoteWalletRequest, requestId: str
 
   switch (request.type) {
     case 'send-async': {
-      const response = await sendAsync(connectionData.provider, request.body)
-      await sendResponse(requestId, {
-        response
-      })
+      const result = await sendAsync(connectionData.provider, request.body)
+      return {
+        ok: true,
+        response: {
+          id: 'send-async',
+          result
+        }
+      }
       break
     }
 
@@ -79,12 +83,17 @@ export async function handleRequest(request: RemoteWalletRequest, requestId: str
       const provider = new BrowserProvider(connectionData.provider)
       const signer = await provider.getSigner()
       const message = await signer.signMessage(payloadToSignDecoded)
-      await sendResponse(requestId, {
-        signature: message,
-        account: connectionData.account || '',
-        chainId: connectionData.chainId
-      })
-      break
+      return {
+        ok: true,
+        response: {
+          id: 'sign',
+          signature: message,
+          account: connectionData.account || '',
+          chainId: connectionData.chainId
+        }
+      }
     }
   }
+
+  throw new Error('The request type is not supported')
 }

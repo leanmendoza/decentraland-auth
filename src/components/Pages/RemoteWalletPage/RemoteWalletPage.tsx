@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { connection } from 'decentraland-connect'
-import { fetchRequest, handleRequest } from './server'
+import { fetchRequest, handleRequest, sendResponse } from './server'
 
 export function isErrorWithMessage(error: unknown): error is Error {
   return error !== undefined && error !== null && typeof error === 'object' && 'message' in error
@@ -49,13 +49,17 @@ export const RemoteWalletPage = () => {
       const request = await fetchRequest(requestId)
 
       setLoading('Resolving request, follow the instructions on your wallet.')
-      await handleRequest(request, requestId)
+      const response = await handleRequest(request)
+      await sendResponse(requestId, response)
 
       setLoading('')
       setFinished(true)
     } catch (error) {
       console.error(error)
-      setDisplayError({ id: 'unknown-error', reason: isErrorWithMessage(error) ? error.message : 'There was an unknown error' })
+
+      const reason = isErrorWithMessage(error) ? error.message : 'There was an unknown error'
+      setDisplayError({ id: 'unknown-error', reason })
+      await sendResponse(requestId, { ok: false, reason })
     }
   }
 

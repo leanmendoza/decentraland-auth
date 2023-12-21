@@ -57,3 +57,25 @@ export namespace RemoteWalletRequest {
 
   export const validate: ValidateFunction<RemoteWalletRequest> = generateLazyValidator(schema)
 }
+
+export type RemoteWalletResponse =
+  | {
+      ok: false
+      reason: string
+    }
+  | {
+      ok: true
+      response: RemoteWalletResponseData
+    }
+
+export type RemoteWalletResponseData =
+  | {
+      id: 'sign'
+      signature: string
+      account: string
+      chainId: number
+    }
+  | {
+      id: 'send-async'
+      result: unknown
+    }
