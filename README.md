@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Decentraland Auth UI
+  DCLExplorer Auth UI
 </h1>
 
-The Decentraland Auth UI repository contains the UI code to belonging to the https://auth.decentraland.org site.
+The DCLExplorer Auth UI repository contains the UI code to belonging to the https://auth.dclexplorer.com/ site.
