@@ -4,7 +4,6 @@ import 'semantic-ui-css/semantic.min.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { UserPage } from './components/Pages/UserPage'
 import { DefaultPage } from './components/Pages/DefaultPage'
 import { CallbackPage } from './components/Pages/CallbackPage'
 import { LoginPage } from './components/Pages/LoginPage'
@@ -20,7 +19,6 @@ ReactDOM.render(
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/callback" element={<CallbackPage />} />
-        <Route path="/user" element={<UserPage />} />
         <Route path="/remote-wallet/:requestId" element={<RemoteWalletPage />} />
         <Route path="*" element={<DefaultPage />} />
       </Routes>

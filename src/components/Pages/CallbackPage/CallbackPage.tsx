@@ -32,8 +32,7 @@ export const CallbackPage = () => {
       if (redirectTo) {
         window.location.href = redirectTo
       } else {
-        // Navigate to user or to any other site
-        navigate(navigateTo ?? '/user')
+        // Go to explorer
       }
     } catch (error) {
       console.log(error)
