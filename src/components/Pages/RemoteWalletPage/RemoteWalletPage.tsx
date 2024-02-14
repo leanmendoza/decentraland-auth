@@ -45,6 +45,7 @@ export const RemoteWalletPage = () => {
     } catch (error) {
       console.error(error)
       navigate(needLoginNavigation)
+      return
     }
 
     try {
