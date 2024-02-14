@@ -74,9 +74,9 @@ export const RemoteWalletPage = () => {
   return (
     <div className={classNames(styles.main)}>
       <div className={classNames(styles.container)}>
-        {displayError?null:<div className={styles.loader}></div>}
-        {loading !== '' && <h2 className={styles.title}>{loading}</h2>}
-        {finished && <h1 className={styles.title}>You can return back to the explorer.</h1>}
+        {displayError?null:<div className={classNames(styles.loader)}></div>}
+        {loading !== '' && <h2 className={classNames(styles.title)}>{loading}</h2>}
+        {finished && <h1 className={classNames(styles.title)}>You can return back to the explorer.</h1>}
         <div>{displayError ? <p>Error: {`${displayError.id} Reason: ${displayError.reason}`}</p> : null}</div>
       </div>
     </div>
