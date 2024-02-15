@@ -32,6 +32,7 @@ export type ConnectionProps = {
   }
   web3Options?: {
     primary: ConnectionOptionType
+    extra?: ConnectionOptionType
     secondary: ConnectionOptionType[]
   }
   className?: string

@@ -67,11 +67,12 @@ export const LoginPage = () => {
           onConnect={handleOnConnect}
           socialOptions={{
             primary: ConnectionOptionType.GOOGLE,
-            secondary: [ConnectionOptionType.DISCORD, ConnectionOptionType.APPLE, ConnectionOptionType.X]
+            secondary: [ConnectionOptionType.DISCORD, ConnectionOptionType.APPLE, ConnectionOptionType.X, ConnectionOptionType.FACEBOOK]
           }}
           web3Options={{
             primary: ConnectionOptionType.METAMASK,
-            secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.COINBASE, ConnectionOptionType.WALLET_CONNECT, ConnectionOptionType.FACEBOOK]
+            extra: ConnectionOptionType.WALLET_CONNECT,
+            secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.COINBASE]
           }}
         />
       </div>

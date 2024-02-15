@@ -4,6 +4,7 @@ import {
   SHOW_MORE_BUTTON_TEST_ID,
   SOCIAL_PRIMARY_TEST_ID,
   SOCIAL_SECONDARY_TEST_ID,
+  WEB3_EXTRA_PRIMARY_TEST_ID,
   WEB3_PRIMARY_TEST_ID,
   WEB3_SECONDARY_TEST_ID
 } from './constants'
@@ -15,8 +16,8 @@ function renderConnection(props: Partial<ConnectionProps>) {
       i18n={{
         title: 'Unlock Your Virtual World.',
         subtitle: 'Access and start exploring.',
-        accessWith: option => `Access with ${option}`,
-        connectWith: option => `Connect with ${option}`,
+        accessWith: option => `Access with ${option.toString().replace('-', '')}`,
+        connectWith: option => `Connect with ${option.toString().replace('-', '')}`,
         moreOptions: 'More Options',
         socialMessage: element => <>Access secured by {element}</>,
         web3Message: learnMore => <>Curious about wallets? {learnMore('Learn More')}</>
@@ -52,7 +53,7 @@ describe('when rendering the component', () => {
       onConnect = jest.fn()
       socialOptions = {
         primary: ConnectionOptionType.GOOGLE,
-        secondary: [ConnectionOptionType.APPLE, ConnectionOptionType.X, ConnectionOptionType.DISCORD]
+        secondary: [ConnectionOptionType.APPLE, ConnectionOptionType.X, ConnectionOptionType.DISCORD, ConnectionOptionType.FACEBOOK]
       }
       screen = renderConnection({ socialOptions, onConnect })
     })
@@ -107,12 +108,13 @@ describe('when rendering the component', () => {
       onConnect = jest.fn()
       web3Options = {
         primary: ConnectionOptionType.METAMASK,
-        secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.WALLET_CONNECT, ConnectionOptionType.COINBASE]
+        extra: ConnectionOptionType.WALLET_CONNECT,
+        secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.COINBASE]
       }
       screen = renderConnection({ web3Options, onConnect })
     })
 
-    it('should render the primary social option', () => {
+    it('should render the primary web3 option', () => {
       const { getByTestId } = screen
       expect(getByTestId(WEB3_PRIMARY_TEST_ID)).toBeInTheDocument()
     })
@@ -121,6 +123,17 @@ describe('when rendering the component', () => {
       const { getByTestId } = screen
       fireEvent.click(getByTestId(`${WEB3_PRIMARY_TEST_ID}-button`))
       expect(onConnect).toHaveBeenCalledWith(ConnectionOptionType.METAMASK)
+    })
+
+    it('should render the extra primary web3 option', () => {
+      const { getByTestId } = screen
+      expect(getByTestId(WEB3_EXTRA_PRIMARY_TEST_ID)).toBeInTheDocument()
+    })
+    
+    it('should call the onConnect method prop when clicking the button', () => {
+      const { getByTestId } = screen
+      fireEvent.click(getByTestId(`${WEB3_EXTRA_PRIMARY_TEST_ID}-button`))
+      expect(onConnect).toHaveBeenCalledWith(ConnectionOptionType.WALLET_CONNECT)
     })
 
     it('should render all the secondary options', () => {
