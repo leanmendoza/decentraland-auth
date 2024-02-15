@@ -9,6 +9,7 @@ import {
   WEB3_SECONDARY_TEST_ID
 } from './constants'
 import { ConnectionOptionType, ConnectionProps } from './Connection.types'
+import { getWalletNameFromOption } from './utils'
 
 function renderConnection(props: Partial<ConnectionProps>) {
   return render(
@@ -16,8 +17,8 @@ function renderConnection(props: Partial<ConnectionProps>) {
       i18n={{
         title: 'Unlock Your Virtual World.',
         subtitle: 'Access and start exploring.',
-        accessWith: option => `Access with ${option.toString().replace('-', '')}`,
-        connectWith: option => `Connect with ${option.toString().replace('-', '')}`,
+        accessWith: option => `Access with ${getWalletNameFromOption(option)}`,
+        connectWith: option => `Connect with ${getWalletNameFromOption(option)}`,
         moreOptions: 'More Options',
         socialMessage: element => <>Access secured by {element}</>,
         web3Message: learnMore => <>Curious about wallets? {learnMore('Learn More')}</>

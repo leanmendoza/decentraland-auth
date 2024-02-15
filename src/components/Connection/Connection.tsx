@@ -13,6 +13,7 @@ import {
 } from './constants'
 import { ConnectionOptionType, ConnectionProps } from './Connection.types'
 import styles from './Connection.module.css'
+import { getWalletNameFromOption } from './utils'
 
 const Primary = ({
   message,
@@ -77,8 +78,8 @@ const defaultProps = {
   i18n: {
     title: 'Unlock Your Virtual World.',
     subtitle: 'Access and start exploring.',
-    accessWith: (option: React.ReactNode) => `Access with ${option?.toString().replace('-', ' ')}`,
-    connectWith: (option: React.ReactNode) => `Connect with ${option?.toString().replace('-', ' ')}`,
+    accessWith: (option: React.ReactNode) => `Access with ${getWalletNameFromOption(option)}`,
+    connectWith: (option: React.ReactNode) => `Connect with ${getWalletNameFromOption(option)}`,
     moreOptions: 'More Options',
     socialMessage: (element: React.ReactNode) => <>Access secured by {element}</>,
     web3Message: (learnMore: (value: React.ReactNode) => React.ReactNode) => <>Curious about wallets? {learnMore('Learn More')}</>
