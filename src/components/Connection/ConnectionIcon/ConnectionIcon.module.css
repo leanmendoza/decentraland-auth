@@ -15,6 +15,10 @@
   background-image: url('../../../assets/images/dapper.png');
 }
 
+.icon-facebook {
+  background-image: url('../../../assets/images/facebook.svg');
+}
+
 .icon-fortmatic {
   background-image: url('../../../assets/images/fortmatic.png');
 }

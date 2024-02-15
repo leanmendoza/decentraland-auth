@@ -20,7 +20,7 @@ const Primary = ({
   testId,
   onConnect
 }: {
-  message: React.ReactNode
+  message?: React.ReactNode
   children: React.ReactChild
   option: ConnectionOptionType
   testId?: string
@@ -54,7 +54,9 @@ const Secondary = ({
   onConnect: (wallet: ConnectionOptionType) => unknown
 }) => (
   <div className={styles.showMoreSecondaryOptions} data-testid={testId}>
-    {options.map(option => (
+    {
+    options.filter(option => option !== 'wallet-connect') // This is to add wallet-connect like main button and don't repeat it at show more section
+    .map(option => (
       <Button
         primary
         key={option}
@@ -109,18 +111,28 @@ export const Connection = (props: ConnectionProps): JSX.Element => {
           </Primary>
         ) : null}
         {web3Options ? (
-          <Primary
-            onConnect={onConnect}
-            testId={WEB3_PRIMARY_TEST_ID}
-            option={web3Options?.primary}
-            message={i18n.web3Message(element => (
-              <span className={styles.primaryLearnMore} role="button" onClick={onLearnMore}>
-                {element}
-              </span>
-            ))}
-          >
-            <>{i18n.connectWith(web3Options?.primary)}</>
-          </Primary>
+            <Primary
+              onConnect={onConnect}
+              testId={WEB3_PRIMARY_TEST_ID}
+              option={web3Options?.primary}
+              message={i18n.web3Message(element => (
+                <span className={styles.primaryLearnMore} role="button" onClick={onLearnMore}>
+                  {element}
+                </span>
+              ))}
+            >
+              <>{i18n.connectWith(web3Options?.primary)}</>
+            </Primary>
+        ) : null}
+        {web3Options ? (
+           <Primary
+           onConnect={onConnect}
+           testId={WEB3_PRIMARY_TEST_ID}
+           option={web3Options.secondary[2]}
+           message={''}
+         >
+           <>{i18n.connectWith(web3Options.secondary[2])}</>
+         </Primary>
         ) : null}
       </div>
 

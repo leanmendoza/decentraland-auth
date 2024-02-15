@@ -1,6 +1,7 @@
 export enum ConnectionOptionType {
   METAMASK = 'metamask',
   DAPPER = 'dapper',
+  FACEBOOK = 'facebook', // Add facebook
   FORTMATIC = 'fortmatic',
   COINBASE = 'coinbase',
   SAMSUNG = 'samsung-blockchain-wallet',

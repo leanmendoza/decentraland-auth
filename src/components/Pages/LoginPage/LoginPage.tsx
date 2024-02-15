@@ -1,13 +1,13 @@
 // import { isElectron } from '../../../integration/desktop'
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAfterLoginRedirection } from '../../../hooks/redirection'
 import { useAfterLoginRenavigation } from '../../../hooks/renavigation'
 import { Connection, ConnectionOptionType } from '../../Connection'
 import { ConnectionModal, ConnectionModalState } from '../../ConnectionModal'
 import { WalletInformationModal } from '../../WalletInformationModal'
-import { getSignature, connectToProvider } from './utils'
 import styles from './LoginPage.module.css'
+import { connectToProvider, getSignature } from './utils'
 
 export const LoginPage = () => {
   const [connectionModalState, setConnectionModalState] = useState(ConnectionModalState.CONNECTING_WALLET)
@@ -16,6 +16,8 @@ export const LoginPage = () => {
   const redirectTo = useAfterLoginRedirection()
   const navigateTo = useAfterLoginRenavigation()
   const navigate = useNavigate()
+
+
 
   const handleLearnMore = useCallback(() => {
     setShowLearnMore(!showLearnMore)
@@ -69,7 +71,7 @@ export const LoginPage = () => {
           }}
           web3Options={{
             primary: ConnectionOptionType.METAMASK,
-            secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.COINBASE, ConnectionOptionType.WALLET_CONNECT]
+            secondary: [ConnectionOptionType.FORTMATIC, ConnectionOptionType.COINBASE, ConnectionOptionType.WALLET_CONNECT, ConnectionOptionType.FACEBOOK]
           }}
         />
       </div>
