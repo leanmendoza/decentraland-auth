@@ -1,6 +1,6 @@
 // import { isElectron } from '../../../integration/desktop'
-import { useState, useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useCallback, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAfterLoginRedirection } from '../../../hooks/redirection'
 import { useAfterLoginRenavigation } from '../../../hooks/renavigation'
 import { Connection, ConnectionOptionType } from '../../Connection'
@@ -16,6 +16,27 @@ export const LoginPage = () => {
   const redirectTo = useAfterLoginRedirection()
   const navigateTo = useAfterLoginRenavigation()
   const navigate = useNavigate()
+
+  const location = useLocation();
+
+  const bidirectionalMap: Record<string, ConnectionOptionType> = {}
+    Object.keys(ConnectionOptionType).forEach((key) => {
+      const value = ConnectionOptionType[key as keyof typeof ConnectionOptionType];
+      bidirectionalMap[value] = ConnectionOptionType[key as keyof typeof ConnectionOptionType];
+    })
+    const searchPrechoose = (valor: string): ConnectionOptionType | undefined => {
+      return bidirectionalMap[valor];
+    }
+
+  useEffect(() => {
+    const prechoose = new URLSearchParams(location.search).get('prechoose')
+    if (prechoose) {
+      const prechooseOption = searchPrechoose(prechoose)
+      if (prechooseOption){
+        handleOnConnect(prechooseOption);
+      }
+    }
+  }, [location]);
 
   const handleLearnMore = useCallback(() => {
     setShowLearnMore(!showLearnMore)
