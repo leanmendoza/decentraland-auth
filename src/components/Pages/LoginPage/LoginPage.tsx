@@ -35,7 +35,7 @@ export const LoginPage = () => {
         if (redirectTo) {
           window.location.href = redirectTo
         } else {
-          navigate(navigateTo ?? '/user')
+          // Go to explorer
         }
         setShowConnectionModal(false)
       } catch (error) {

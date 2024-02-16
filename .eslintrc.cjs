@@ -1,7 +1,7 @@
 /* eslint-env node */
 module.exports = {
   extends: ['@dcl/eslint-config/dapps'],
-  ignorePatterns: ['.eslintrc.cjs', 'jest.config.ts', 'scripts/prebuild.cjs', 'test-queue-server/index.js', 'vite.config.ts'],
+  ignorePatterns: ['.eslintrc.cjs', 'jest.config.ts', 'scripts/prebuild.cjs', 'queue-server/index.js', 'vite.config.ts'],
   parserOptions: {
     project: ['tsconfig.json']
   },
