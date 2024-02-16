@@ -7,10 +7,11 @@ import {
   SHOW_MORE_BUTTON_TEST_ID,
   SOCIAL_PRIMARY_TEST_ID,
   SOCIAL_SECONDARY_TEST_ID,
+  WEB3_EXTRA_PRIMARY_TEST_ID,
   WEB3_PRIMARY_TEST_ID,
   WEB3_SECONDARY_TEST_ID
 } from './constants'
-import { ConnectionOptionType, ConnectionProps } from './Connection.types'
+import { ConnectionOptionTitles, ConnectionOptionType, ConnectionProps } from './Connection.types'
 import styles from './Connection.module.css'
 
 const Primary = ({
@@ -20,7 +21,7 @@ const Primary = ({
   testId,
   onConnect
 }: {
-  message: React.ReactNode
+  message?: React.ReactNode
   children: React.ReactChild
   option: ConnectionOptionType
   testId?: string
@@ -54,7 +55,9 @@ const Secondary = ({
   onConnect: (wallet: ConnectionOptionType) => unknown
 }) => (
   <div className={styles.showMoreSecondaryOptions} data-testid={testId}>
-    {options.map(option => (
+    {
+    options
+    .map(option => (
       <Button
         primary
         key={option}
@@ -73,8 +76,8 @@ const defaultProps = {
   i18n: {
     title: 'Unlock Your Virtual World.',
     subtitle: 'Access and start exploring.',
-    accessWith: (option: React.ReactNode) => `Access with ${option}`,
-    connectWith: (option: React.ReactNode) => `Connect with ${option}`,
+    accessWith: (option: ConnectionOptionType) => `Access with ${ConnectionOptionTitles[option]}`,
+    connectWith: (option: ConnectionOptionType) => `Connect with ${ConnectionOptionTitles[option]}`,
     moreOptions: 'More Options',
     socialMessage: (element: React.ReactNode) => <>Access secured by {element}</>,
     web3Message: (learnMore: (value: React.ReactNode) => React.ReactNode) => <>Curious about wallets? {learnMore('Learn More')}</>
@@ -109,18 +112,27 @@ export const Connection = (props: ConnectionProps): JSX.Element => {
           </Primary>
         ) : null}
         {web3Options ? (
-          <Primary
-            onConnect={onConnect}
-            testId={WEB3_PRIMARY_TEST_ID}
-            option={web3Options?.primary}
-            message={i18n.web3Message(element => (
-              <span className={styles.primaryLearnMore} role="button" onClick={onLearnMore}>
-                {element}
-              </span>
-            ))}
-          >
-            <>{i18n.connectWith(web3Options?.primary)}</>
-          </Primary>
+            <Primary
+              onConnect={onConnect}
+              testId={WEB3_PRIMARY_TEST_ID}
+              option={web3Options?.primary}
+              message={i18n.web3Message(element => (
+                <span className={styles.primaryLearnMore} role="button" onClick={onLearnMore}>
+                  {element}
+                </span>
+              ))}
+            >
+              <>{i18n.connectWith(web3Options?.primary)}</>
+            </Primary>
+        ) : null}
+        {web3Options?.extra ? (
+           <Primary
+           onConnect={onConnect}
+           testId={WEB3_EXTRA_PRIMARY_TEST_ID}
+           option={web3Options.extra}
+         >
+           <>{i18n.connectWith(ConnectionOptionType.WALLET_CONNECT)}</>
+         </Primary>
         ) : null}
       </div>
 

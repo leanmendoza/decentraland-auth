@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { connection } from 'decentraland-connect'
 import { fetchRequest, handleRequest, sendResponse } from './server'
+import styles from './RemoteWalletPage.module.css'
+import classNames from 'classnames'
+
 
 export function isErrorWithMessage(error: unknown): error is Error {
   return error !== undefined && error !== null && typeof error === 'object' && 'message' in error
@@ -42,6 +45,7 @@ export const RemoteWalletPage = () => {
     } catch (error) {
       console.error(error)
       navigate(needLoginNavigation)
+      return
     }
 
     try {
@@ -59,6 +63,7 @@ export const RemoteWalletPage = () => {
 
       const reason = isErrorWithMessage(error) ? error.message : 'There was an unknown error'
       setDisplayError({ id: 'unknown-error', reason })
+      setLoading(`Oh-oh. That's an error`)
       await sendResponse(requestId, { ok: false, reason })
     }
   }
@@ -68,10 +73,13 @@ export const RemoteWalletPage = () => {
   }, [])
 
   return (
-    <div>
-      {finished && <p>You can return back to the explorer.</p>}
-      {loading !== '' && <p>{loading} Please wait...</p>}
-      <div>{displayError ? <p>Error: {`${displayError.id} Reason: ${displayError.reason}`}</p> : null}</div>
+    <div className={classNames(styles.main)}>
+      <div className={classNames(styles.container)}>
+        {loading !== '' && <div className={classNames(styles.loader)}></div>}
+        {loading !== '' && <h2 className={classNames(styles.title)}>{loading}</h2>}
+        {finished && <h1 className={classNames(styles.title)}>You can return back to the explorer.</h1>}
+        <div>{displayError ? <p>Error: {`${displayError.id} Reason: ${displayError.reason}`}</p> : null}</div>
+      </div>
     </div>
   )
 }

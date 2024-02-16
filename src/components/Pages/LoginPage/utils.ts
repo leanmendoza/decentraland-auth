@@ -13,6 +13,7 @@ export function fromConnectionOptionToProviderType(connectionType: ConnectionOpt
   switch (connectionType) {
     case ConnectionOptionType.DISCORD:
     case ConnectionOptionType.X:
+    case ConnectionOptionType.FACEBOOK:
     case ConnectionOptionType.GOOGLE:
     case ConnectionOptionType.APPLE:
       return ProviderType.MAGIC

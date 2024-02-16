@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ProviderType } from '@dcl/schemas'
-import { Loader } from 'decentraland-ui/dist/components/Loader/Loader'
 import { getConfiguration, connection } from 'decentraland-connect'
 import { useAfterLoginRedirection } from '../../../hooks/redirection'
 import { useAfterLoginRenavigation } from '../../../hooks/renavigation'
+import styles from './CallbackPage.module.css'
+import classNames from 'classnames'
 
 const MAGIC_KEY = getConfiguration().magic.apiKey
 
@@ -45,5 +46,9 @@ export const CallbackPage = () => {
     logInAndRedirect()
   }, [])
 
-  return <Loader active size="huge" />
+  return (
+    <div className={classNames(styles.main)}>
+      <div className={classNames(styles.loader)}></div>
+    </div>
+  )
 }
