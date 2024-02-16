@@ -11,9 +11,8 @@ import {
   WEB3_PRIMARY_TEST_ID,
   WEB3_SECONDARY_TEST_ID
 } from './constants'
-import { ConnectionOptionType, ConnectionProps } from './Connection.types'
+import { ConnectionOptionTitles, ConnectionOptionType, ConnectionProps } from './Connection.types'
 import styles from './Connection.module.css'
-import { getWalletNameFromOption } from './utils'
 
 const Primary = ({
   message,
@@ -58,7 +57,6 @@ const Secondary = ({
   <div className={styles.showMoreSecondaryOptions} data-testid={testId}>
     {
     options
-    .filter(option => option !== 'wallet-connect') // This is to add wallet-connect like main button and don't repeat it at show more section
     .map(option => (
       <Button
         primary
@@ -78,8 +76,8 @@ const defaultProps = {
   i18n: {
     title: 'Unlock Your Virtual World.',
     subtitle: 'Access and start exploring.',
-    accessWith: (option: React.ReactNode) => `Access with ${getWalletNameFromOption(option)}`,
-    connectWith: (option: React.ReactNode) => `Connect with ${getWalletNameFromOption(option)}`,
+    accessWith: (option: ConnectionOptionType) => `Access with ${ConnectionOptionTitles[option]}`,
+    connectWith: (option: ConnectionOptionType) => `Connect with ${ConnectionOptionTitles[option]}`,
     moreOptions: 'More Options',
     socialMessage: (element: React.ReactNode) => <>Access secured by {element}</>,
     web3Message: (learnMore: (value: React.ReactNode) => React.ReactNode) => <>Curious about wallets? {learnMore('Learn More')}</>
